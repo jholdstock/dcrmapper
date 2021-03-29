@@ -1,0 +1,83 @@
+{{ template "header" . }}
+
+{{ template "summary" . }}
+
+<div class="row">
+    <div class="col">
+
+        <div id="blocks-by-account-page-select" class="page-select pb-4"></div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>IP</th>
+                    <th>Location</th>
+                    <th>ISP</th>
+                    <th>Org</th>
+                    <th>AS</th>
+                </tr>
+            </thead>
+            <tbody id="blocks-by-account-table">
+                {{ range $node := .Nodes }}
+                    <tr>
+                        <td><a href="/node?ip={{ $node.IP }}">{{ $node.IP }}</a></td>
+                        {{ with $node.GeoData}}
+                            <td>{{ .City }} / {{ .Region }}<br/>{{ .Country }}
+                            <td>{{ .ISP }}</td>
+                            <td>{{ .Org }}</td>
+                            <td>{{ .AS }}</td>
+                        {{ else }}
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        {{ end }}
+                    </tr>
+                {{ else }}
+                    <tr><td colspan="100%"><span class="no-data">No nodes</span></td></tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+<script>
+    $.fn["pagination"].defaults.locator = "data";
+    $.fn["pagination"].defaults.totalNumberLocator = function(response) { return response.count; };
+    $.fn["pagination"].defaults.hideWhenLessThanOnePage = true;
+    $.fn["pagination"].defaults.pageSize = 10;
+
+
+    $('#blocks-by-account-page-select').pagination({
+        dataSource: "/nodes",
+        callback: function(data) {
+            var html = '';
+            if (data.length > 0) {
+                $.each(data, function(_, item){
+                    if (item.GeoData) {
+                        html += '<tr>';
+                        html += '<td><a href="/node?ip='  + item.IP +  '">' + item.IP + '</a></td>';
+                        html += '<td>' + item.GeoData.City + ' / ' + item.GeoData.Region + '<br />' + item.GeoData.Country + '</td>';
+                        html += '<td>' + item.GeoData.ISP + '</td>';
+                        html += '<td>' + item.GeoData.Org + '</td>';
+                        html += '<td>' + item.GeoData.AS + '</td>';
+                        html += '</tr>';
+                    } else {
+                        html += '<tr>';
+                        html += '<td><a href="/node?ip='  + item.IP +  '">' + item.IP + '</a></td>';
+                        html += '<td></td>';
+                        html += '<td></td>';
+                        html += '<td></td>';
+                        html += '<td></td>';
+                        html += '</tr>';
+                    }
+                });
+            } else {
+                html += '<tr><td colspan="100%"><span class="no-data">No nodes</span></td></tr>';
+            }
+            $('#blocks-by-account-table').html(html);
+        }
+    });
+</script>
+{{ template "footer" . }}

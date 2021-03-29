@@ -1,0 +1,40 @@
+#node-map {
+  min-height: 400px;
+}
+
+#world-map {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  height: 100%;
+  padding-top: 50%;
+  min-height: 500px;
+}
+
+.row {
+  margin-bottom: 14px;
+}
+
+.w-99 {
+  width: 99%;
+}
+
+#node-map, #world-map {
+  background-color: transparent;
+}
+
+.progress {
+  max-width: 275px;
+  width: 100%;
+  border-radius: 0;
+}
+
+.top-10 td {
+  padding-right: 10px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.badge {
+  font-size: inherit;
+}

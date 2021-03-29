@@ -1,0 +1,124 @@
+{{ template "header" . }}
+
+{{ if .OK }}
+
+    <div class="row pt-3">
+        <div class="col">
+            <h1>
+                {{ .Node.IP }}
+            </h1>
+        </div>
+    </div>
+    
+    <div class="row">
+
+        <div class="col-lg">
+
+            <table class="table">
+                <!-- TODO show services -->
+                <tr>
+                    <th>Status</th>
+                    <td>
+                        {{ if .Good }}
+                            <span class="badge badge-success">Online</span>
+                        {{ else }}
+                            <span class="badge badge-danger">Offline</span>
+                        {{ end }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Last Updated</th>
+                    <td>{{ date .Node.LastAttempt }}</td>
+                </tr>
+                <tr>
+                    <th>User Agent</th>
+                    <td>{{ .Node.UserAgent }}</td>
+                </tr>
+            </table>
+
+            {{ with .Node.GeoData}}
+            <h2>Network</h2>
+            <table class="table">
+                <tr>
+                    <th>ISP</th>
+                    <td>{{ .ISP }}</td>
+                </tr>
+                <tr>
+                    <th>Org</th>
+                    <td>{{ .Org }}</td>
+                </tr>
+                <tr>
+                    <th>AS</th>
+                    <td>{{ .AS }}</td>
+                </tr>
+            </table>
+            {{ else }}
+            {{ end }}
+
+        </div>
+
+        <div class="col-lg">
+            <div id="node-map"></div>
+            
+            <div class="d-flex justify-content-between
+             {{ if not (eq .Theme "386") }}border-left border-bottom border-right{{end}}"
+             {{ if eq .Theme "386" }}style="border-left: 0.875px solid #bbbbbb;
+             border-bottom: 0.875px solid #bbbbbb;
+             border-right: 0.875px solid #bbbbbb;"{{end}} >
+
+                <div class="py-2 px-4">
+                    {{ .Node.GeoData.City }}<br/>
+                    {{ .Node.GeoData.Region }}<br/>
+                    {{ .Node.GeoData.Country }}
+                </div>
+                <div class="py-2 px-4">
+                    <span class="text-muted">
+                        Lat:&nbsp;{{ .Node.GeoData.Lat }}, Lon:&nbsp;{{ .Node.GeoData.Lon }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    {{ with .Node.GeoData}}
+    <script>
+        var node_lat = {{ .Lat }};
+        var node_lon = {{ .Lon }};
+        var node_ip = '{{ $.Node.IP }}';
+
+        var map = L.map( 'node-map', {
+            center: [node_lat, node_lon],
+            minZoom: 2,
+            zoom: 5,
+            attributionControl: false,
+        });
+        
+        L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            subdomains: ['a', 'b', 'c'],
+            noWrap: true,
+        }).addTo( map );
+
+        L.marker( [node_lat, node_lon] )
+            .bindPopup( node_ip )
+            .addTo( map );
+    </script>
+    {{ end }}
+
+{{ else }}
+<div class="row pt-3">
+    <div class="col">
+        <div class="pt-4">
+            <div class="alert alert-danger">
+                Node not found with IP {{ .SearchIP }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+  
+{{ end }}
+
+{{ template "footer" . }}

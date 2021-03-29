@@ -1,0 +1,108 @@
+{{define "header"}}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>{{ .AppName }}</title>
+
+        {{ if eq .Theme "386" }}
+        <link rel="stylesheet" type="text/css" href="/public/css/vendor/bootstrap-reboot-386.css">
+          <link rel="stylesheet" type="text/css" href="/public/css/vendor/bootstrap-386.css">
+          <link rel="stylesheet" type="text/css" href="/public/css/vendor/bootstrap-grid-386.css">
+        {{ else if eq .Theme "dark" }}
+          <link rel="stylesheet" type="text/css" href="/public/css/vendor/bootstrap-night.css">
+        {{ else }}
+          <link rel="stylesheet" type="text/css" href="/public/css/vendor/bootstrap.min.css">
+        {{ end }}
+
+        <link rel="stylesheet" href="/public/css/main.css" />
+        
+        <link rel="stylesheet" href="/public/css/vendor/leaflet-1.7.1.css"/>
+        <script src="/public/js/vendor/leaflet-1.7.1.min.js"></script>
+        
+        <script src="/public/js/vendor/jquery-3.4.1.min.js"></script>
+        <script src="/public/js/vendor/pagination-2.1.5.min.js"></script>
+        <script src="/public/js/vendor/popper-1.16.0.min.js"></script>
+        {{ if eq .Theme "386" }}
+          <script src="/public/js/vendor/bootstrap-386.js"></script>
+        {{ else }}
+          <script src="/public/js/vendor/bootstrap-4.4.1.min.js"></script>
+        {{ end }}
+
+        <style>
+          {{ if eq .Theme "386" }}
+          
+            .modal-dialog {
+              margin: 1.75rem auto;
+            }
+
+            td, th {
+              padding: 4px 8px !important;
+            }
+            .badge {
+              padding: 0;
+            }
+
+          {{ else }}
+            html, body {
+              font-size: 14px;
+            }
+            
+            h1 {
+              font-size: 24px;
+            }
+          
+          {{ end }}
+        </style>
+    </head>
+    
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark {{ if eq .Theme "386" }}bg-primary{{ else }}bg-dark{{end}}">
+            <a class="navbar-brand" href=".">{{ .AppName }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item {{ if eq .ActivePage "WorldMap" }}active{{ end }}">
+                  <a class="nav-link" href="/">World Map</a>
+                </li>
+                <li class="nav-item {{ if eq .ActivePage "AllNodes" }}active{{ end }}">
+                  <a class="nav-link" href="/all_nodes">All Nodes</a>
+                </li>
+                <li class="nav-item {{ if eq .ActivePage "UserAgents" }}active{{ end }}">
+                  <a class="nav-link" href="/user_agents">User Agents</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Theme
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" rel="keep-params" href="?{{with .SearchIP}}ip={{.}}&{{end}}theme=light">Light</a>
+                    <a class="dropdown-item" rel="keep-params" href="?{{with .SearchIP}}ip={{.}}&{{end}}theme=dark">Dark</a>
+                    <a class="dropdown-item" rel="keep-params" href="?{{with .SearchIP}}ip={{.}}&{{end}}theme=386">TUI</a>
+                  </div>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0" autocomplete="off" method="GET" action="/node">
+                <input class="form-control mr-sm-2" name="ip" required placeholder="IP Search" />
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+
+        <div class="container">
+          
+          <noscript>
+            <div class="pt-4">
+              <div class="alert alert-danger">
+                Javascript is disabled! Some site features will not work.
+              </div>
+            </div>
+          </noscript>
+
+
+{{end}}

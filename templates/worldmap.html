@@ -1,0 +1,161 @@
+{{ template "header" . }}
+
+{{ template "summary" . }}
+
+<div class="row">
+    <div class="col">
+        <div id="world-map"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="countryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="countryModalLabel">Nodes per Country</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                {{ range $rank, $count := .Summary.CountryCounts }}
+                <div class="col-md-4">
+                    {{ incr $rank }}. {{ $count.Value }} ({{ $count.Count }})
+                </div>
+                {{end}}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="asModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="asModalLabel">Nodes per Network</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                {{ range $rank, $count := .Summary.AS }}
+                <div class="col-md-4">
+                    {{ incr $rank }}. {{ $count.Value }} ({{ $count.Count }})
+                </div>
+                {{end}}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    
+    <div class="col-12 col-lg-7 pb-4" >
+        <h1>Top 10 countries
+            <small class="text-muted">
+                <a data-toggle="modal" data-target="#countryModal">See all</a>
+            </small>
+        </h1>
+        <table class="top-10 pb-3">
+            {{ range $rank, $count := .Summary.CountryCounts }}
+                {{if lt $rank 10}}
+                <tr>
+                    <td class="text-right">{{ incr $rank }}.</td>
+                    <td>{{ $count.Value }}</td>
+                    <td class="text-right">{{ $count.Count }} nodes</td>
+                    <td class="text-left">({{ $count.AbsPercent }}%)</td>
+                    <td class="w-99">
+                        <div class="progress">
+                            <div class="progress-bar" style="width: {{ $count.RelPercent }}%;"></div>
+                        </div>
+                    </td>
+                </tr>
+                {{end}}
+            {{end}}
+        </table>
+    </div>
+
+    <div class="col-12 col-lg-5 pb-4">
+        <h1>Top 10 networks
+            <small class="text-muted">
+                <a data-toggle="modal" data-target="#asModal">See all</a>
+            </small>
+        </h1>
+        <table class="top-10" >
+            {{ range $rank, $count := .Summary.AS }}
+                {{if lt $rank 10}}
+                <tr>
+                    <td class="text-right">{{ incr $rank }}.</td>
+                    <td>{{ $count.Value }}</td>
+                    <td class="text-right">{{ $count.Count }} nodes</td>
+                    <td class="text-left">({{ $count.AbsPercent }}%)</td>
+                </tr>
+                {{end}}
+            {{end}}
+        </table>
+    </div>
+
+
+</div>
+<script>
+    var southWest = L.latLng(-59, -180);
+    var northEast = L.latLng(82, 180);
+    var bounds = L.latLngBounds(southWest, northEast);
+
+     var map = L.map( 'world-map', {
+        center: bounds.getCenter(),
+        minZoom: 2,
+        zoom: 2,
+        attributionControl: false,
+        maxBounds: bounds,
+        maxBoundsViscosity: 1.0,
+     });
+     
+    {{ if eq .Theme "386" }}
+        L.tileLayer( 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+            noWrap: true,
+            subdomains: 'abcd',
+        }).addTo( map );
+    {{ else if eq .Theme "dark" }}
+        L.tileLayer( 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+            noWrap: true,
+            subdomains: 'abcd',
+        }).addTo( map );
+    {{ else }}
+        L.tileLayer( 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+            noWrap: true,
+            subdomains: 'abcd',
+        }).addTo( map );
+    {{ end }}
+
+
+     
+     
+     var myIcon = L.icon({
+         iconUrl: '/public/images/pin24.png',
+         iconRetinaUrl: '/public/images/pin48.png',
+         iconSize: [29, 24],
+         iconAnchor: [9, 21],
+         popupAnchor: [0, -14]
+     });
+
+     $.get('/world_nodes', function(nodes) {
+        for (var i=0; i < nodes.length; ++i ) {
+            L.marker( [nodes[i].GeoData.Lat, nodes[i].GeoData.Lon], {icon: myIcon} )
+                .addTo( map );
+        }
+    });
+
+</script>
+
+{{ template "footer" . }}

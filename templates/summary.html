@@ -1,0 +1,20 @@
+{{ define "summary" }}
+
+<div class="row">
+    <div class="col py-3">
+    
+        <h1>{{ .Summary.GoodCount }} Decred Nodes Online</h1>
+        <p style="max-width: 500px;">
+            {{ .AppName }} continually crawls the Decred network and
+            attempts to contact all public nodes.
+        </p>
+        <p style="max-width: 500px;" class="mb-0">
+            There are currently <span class="text-success">{{ .Summary.GoodCount }}</span>
+            reachable public nodes in <span class="text-success">{{ len .Summary.CountryCounts }}</span>
+            different countries.
+        </p>
+    
+    </div>
+</div>
+
+{{ end }}

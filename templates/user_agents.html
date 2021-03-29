@@ -1,0 +1,30 @@
+{{ template "header" . }}
+
+{{ template "summary" . }}
+
+<div class="row">
+    <div class="col">
+        <table class="table table-striped" style="max-width: 70%;">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>User Agent</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range $rank, $count := .Summary.UserAgents }}
+                <tr>
+                    <td>{{ incr $rank }}</td>
+                    <td>{{ $count.Value }}</td>
+                    <td>{{ $count.Count }}</td>
+                </tr>
+                {{ else }}
+                <tr><td colspan="100%"><span class="no-data">No nodes</span></td></tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{ template "footer" . }}
