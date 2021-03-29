@@ -15,7 +15,7 @@ const (
 func getTheme(c *gin.Context) string {
 	theme := c.Query("theme")
 	if theme != "" {
-		c.SetCookie("theme", theme, 3600, "/", "localhost", false, false)
+		c.SetCookie("theme", theme, 3600, "/", domain, false, false)
 		return theme
 	}
 

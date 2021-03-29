@@ -15,6 +15,7 @@ import (
 )
 
 var amgr *crawler.Manager
+var domain string
 
 func NewRouter() *gin.Engine {
 	// With release mode enabled, gin will only read template files once and cache them.
@@ -48,8 +49,9 @@ func NewRouter() *gin.Engine {
 	return router
 }
 
-func Start(ctx context.Context, listen string, mgr *crawler.Manager, requestShutdownChan chan struct{}, shutdownWg *sync.WaitGroup) error {
+func Start(ctx context.Context, listen string, cookieDomain string, mgr *crawler.Manager, requestShutdownChan chan struct{}, shutdownWg *sync.WaitGroup) error {
 	amgr = mgr
+	domain = cookieDomain
 
 	// Create TCP listener.
 	var listenConfig net.ListenConfig

@@ -22,9 +22,11 @@ func run(ctx context.Context) error {
 
 	// Parse CLI args.
 	testnet := flag.Bool("testnet", false, "run on testnet")
-	var listen string
+	var listen, domain string
 	flag.StringVar(&listen, "listen", "127.0.0.1:8111", "listen address:port")
+	flag.StringVar(&domain, "domain", "localhost", "cookie domain")
 	flag.Parse()
+
 	params := chaincfg.MainNetParams()
 	if *testnet {
 		params = chaincfg.TestNet3Params()
@@ -42,7 +44,7 @@ func run(ctx context.Context) error {
 	mgr.Start(ctx, &wg)
 
 	// Start HTTP server
-	err = server.Start(ctx, listen, mgr, shutdownRequestChannel, &wg)
+	err = server.Start(ctx, listen, domain, mgr, shutdownRequestChannel, &wg)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to initialize server: %v\n", err)
 		requestShutdown()
