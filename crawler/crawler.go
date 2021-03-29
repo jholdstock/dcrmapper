@@ -126,8 +126,7 @@ func (m *Manager) testPeer(ctx context.Context, ip string, netParams *chaincfg.P
 	verack := make(chan struct{}, 1)
 
 	config := peer.Config{
-		// TODO set UA
-		UserAgentName:    "dcrseeder",
+		UserAgentName:    "decred-mapper",
 		UserAgentVersion: "0.0.1",
 		Net:              netParams.Net,
 		DisableRelayTx:   true,
