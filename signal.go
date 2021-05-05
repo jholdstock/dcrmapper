@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"syscall"
 )
 
 // shutdownRequestChannel is used to initiate shutdown from one of the
@@ -22,7 +23,7 @@ var shutdownSignaled = make(chan struct{})
 
 // signals defines the signals that are handled to do a clean shutdown.
 // Conditional compilation is used to also include SIGTERM on Unix.
-var signals = []os.Signal{os.Interrupt}
+var signals = []os.Signal{os.Interrupt, syscall.SIGTERM, syscall.SIGHUP}
 
 // withShutdownCancel creates a copy of a context that is cancelled whenever
 // shutdown is invoked through an interrupt signal or from an JSON-RPC stop
