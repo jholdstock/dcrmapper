@@ -23,6 +23,7 @@
                             <span class="badge badge-success">Online</span>
                         {{ else }}
                             <span class="badge badge-danger">Offline</span>
+                            <span class="ml-2 text-muted"><em>(Last online {{ date .Node.LastSuccess }})</em></span>
                         {{ end }}
                     </td>
                 </tr>

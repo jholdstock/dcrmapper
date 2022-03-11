@@ -60,7 +60,7 @@
 
 <div class="row">
     
-    <div class="col-12 col-lg-7 pb-4" >
+    <div class="col-12 col-lg-7 py-4" >
         <h1>Top 10 countries
             <small class="text-muted">
                 <a data-toggle="modal" data-target="#countryModal">See all</a>
@@ -75,7 +75,7 @@
                     <td class="text-right">{{ $count.Count }} nodes</td>
                     <td class="text-left">({{ $count.AbsPercent }}%)</td>
                     <td class="w-99">
-                        <div class="progress">
+                        <div class="d-none d-sm-flex progress">
                             <div class="progress-bar" style="width: {{ $count.RelPercent }}%;"></div>
                         </div>
                     </td>
@@ -85,7 +85,7 @@
         </table>
     </div>
 
-    <div class="col-12 col-lg-5 pb-4">
+    <div class="col-12 col-lg-5 py-4">
         <h1>Top 10 networks
             <small class="text-muted">
                 <a data-toggle="modal" data-target="#asModal">See all</a>

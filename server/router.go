@@ -17,6 +17,8 @@ import (
 var amgr *crawler.Manager
 var domain string
 
+const timeFormat = "02 Jan 2006 15:04 MST"
+
 func NewRouter() *gin.Engine {
 	// With release mode enabled, gin will only read template files once and cache them.
 	// With release mode disabled, templates will be reloaded on the fly.
@@ -31,7 +33,7 @@ func NewRouter() *gin.Engine {
 
 	router.SetFuncMap(template.FuncMap{
 		"incr": func(i int) int { return i + 1 },
-		"date": func(t time.Time) string { return t.Format(time.Stamp + " MST") },
+		"date": func(t time.Time) string { return t.In(time.UTC).Format(timeFormat) },
 	})
 
 	router.Static("/public", "./public/")
