@@ -28,7 +28,9 @@ const (
 	// peersFilename is the name of the file.
 	peersFilename = "nodes.json"
 
-	nodeTimeout = time.Second * 5
+	// nodeTimeout is the time to wait for each peer action - dial, verack and
+	// getaddr.
+	nodeTimeout = time.Second * 10
 )
 
 type Manager struct {
