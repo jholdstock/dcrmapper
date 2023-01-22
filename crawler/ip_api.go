@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -66,6 +66,10 @@ func (m *Manager) geoIP(ctx context.Context) {
 	for _, div := range divided {
 
 		reqData, err := json.Marshal(div)
+		if err != nil {
+			log.Printf("json.Marshal error: %v", err)
+			return
+		}
 
 		req, err := http.NewRequest(http.MethodPost, ipapiurl, bytes.NewBuffer(reqData))
 		if err != nil {
@@ -83,7 +87,7 @@ func (m *Manager) geoIP(ctx context.Context) {
 			defer res.Body.Close()
 		}
 
-		body, readErr := ioutil.ReadAll(res.Body)
+		body, readErr := io.ReadAll(res.Body)
 		if readErr != nil {
 			log.Printf("ioutil.ReadAll: %v", readErr)
 			return

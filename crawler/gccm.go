@@ -75,7 +75,7 @@ func (c *concurrencyManager) controller() {
 
 		// When the closed flag is set,
 		// we need to close the manager if it doesn't have any running goroutine
-		if c.closed == true && c.runningCount == 0 {
+		if c.closed && c.runningCount == 0 {
 			break
 		}
 	}

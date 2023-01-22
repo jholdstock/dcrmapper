@@ -143,8 +143,6 @@ func (m *Manager) testPeer(ctx context.Context, ip string, netParams *chaincfg.P
 						added, p.Addr())
 				}
 
-				m.Good(p)
-
 				onaddr <- struct{}{}
 			},
 			OnVerAck: func(p *peer.Peer, msg *wire.MsgVerAck) {
@@ -174,6 +172,7 @@ func (m *Manager) testPeer(ctx context.Context, ip string, netParams *chaincfg.P
 	// Wait for the verack message.
 	select {
 	case <-verack:
+		m.Good(p)
 		// Ask peer for some addresses.
 		p.QueueMessage(wire.NewMsgGetAddr(), nil)
 	case <-time.After(nodeTimeout):
@@ -184,15 +183,10 @@ func (m *Manager) testPeer(ctx context.Context, ip string, netParams *chaincfg.P
 		return
 	}
 
-	// Wait for the addr message.
 	select {
 	case <-onaddr:
 	case <-time.After(nodeTimeout):
-		m.Bad(ip, "addr timeout", nil)
-		return
 	case <-ctx.Done():
-		// App shutting down.
-		return
 	}
 }
 
