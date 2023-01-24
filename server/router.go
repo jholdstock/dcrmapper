@@ -39,14 +39,18 @@ func NewRouter() *gin.Engine {
 	router.Static("/public", "./public/")
 	router.LoadHTMLGlob("templates/*")
 
+	// Page routes.
 	router.GET("/", homepage)
 	router.GET("/all_nodes", list)
 	router.GET("/user_agents", userAgents)
 	router.GET("/node", node)
 
-	// API routes
+	// Page API routes.
 	router.GET("/world_nodes", worldNodes)
 	router.GET("/nodes", paginatedNodes)
+
+	// Data API routes.
+	router.GET("/api/user_agents", api)
 
 	return router
 }
