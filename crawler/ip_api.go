@@ -89,7 +89,7 @@ func (m *Manager) geoIP(ctx context.Context) {
 
 		body, readErr := io.ReadAll(res.Body)
 		if readErr != nil {
-			log.Printf("ioutil.ReadAll: %v", readErr)
+			log.Printf("io.ReadAll: %v", readErr)
 			return
 		}
 

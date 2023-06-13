@@ -9,7 +9,7 @@ import (
 	"sync"
 
 	"github.com/decred/dcrd/chaincfg/v3"
-	"github.com/decred/dcrd/dcrutil/v3"
+	"github.com/decred/dcrd/dcrutil/v4"
 	"github.com/jholdstock/dcrmapper/crawler"
 	"github.com/jholdstock/dcrmapper/server"
 )
