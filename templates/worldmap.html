@@ -151,7 +151,9 @@
 
      $.get('/world_nodes', function(nodes) {
         for (var i=0; i < nodes.length; ++i ) {
+            IP = nodes[i].IP;
             L.marker( [nodes[i].GeoData.Lat, nodes[i].GeoData.Lon], {icon: myIcon} )
+                .bindPopup('<a href="/node?ip=' + IP +  '">' + IP + '</a>')
                 .addTo( map );
         }
     });
