@@ -3,10 +3,10 @@ module github.com/jholdstock/dcrmapper
 go 1.19
 
 require (
-	github.com/decred/dcrd/chaincfg/v3 v3.2.0
-	github.com/decred/dcrd/dcrutil/v4 v4.0.1
-	github.com/decred/dcrd/peer/v2 v2.2.1
-	github.com/decred/dcrd/wire v1.6.0
+	github.com/decred/dcrd/chaincfg/v3 v3.2.1
+	github.com/decred/dcrd/dcrutil/v4 v4.0.2
+	github.com/decred/dcrd/peer/v3 v3.1.1
+	github.com/decred/dcrd/wire v1.7.0
 	github.com/gin-gonic/gin v1.9.1
 )
 
@@ -22,12 +22,9 @@ require (
 	github.com/decred/dcrd/crypto/ripemd160 v1.0.2 // indirect
 	github.com/decred/dcrd/dcrec v1.0.1 // indirect
 	github.com/decred/dcrd/dcrec/edwards/v2 v2.0.3 // indirect
-	github.com/decred/dcrd/dcrec/secp256k1/v3 v3.0.1 // indirect
-	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0 // indirect
-	github.com/decred/dcrd/dcrutil/v3 v3.0.1 // indirect
+	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.3.0 // indirect
 	github.com/decred/dcrd/lru v1.1.2 // indirect
-	github.com/decred/dcrd/txscript/v3 v3.0.1 // indirect
-	github.com/decred/dcrd/txscript/v4 v4.1.0 // indirect
+	github.com/decred/dcrd/txscript/v4 v4.1.1 // indirect
 	github.com/decred/go-socks v1.1.0 // indirect
 	github.com/decred/slog v1.2.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
@@ -52,5 +49,5 @@ require (
 	golang.org/x/text v0.10.0 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	lukechampine.com/blake3 v1.2.1 // indirect
+	lukechampine.com/blake3 v1.3.0 // indirect
 )
