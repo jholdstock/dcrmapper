@@ -147,7 +147,7 @@ func (m *Manager) testPeer(ctx context.Context, ip string, netParams *chaincfg.P
 
 				onaddr <- struct{}{}
 			},
-			OnVerAck: func(p *peer.Peer, msg *wire.MsgVerAck) {
+			OnVerAck: func(_ *peer.Peer, _ *wire.MsgVerAck) {
 				verack <- struct{}{}
 			},
 		},
@@ -303,13 +303,6 @@ func (m *Manager) Good(p *peer.Peer) {
 	}
 
 	m.goodNodes = append(m.goodNodes, peerIP)
-}
-
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-	return y
 }
 
 func (m *Manager) AllGoodNodes() []*Node {
@@ -473,7 +466,7 @@ func (m *Manager) deserializePeers() error {
 	}
 	r, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("%s error opening file: %v", filePath, err)
+		return fmt.Errorf("%s error opening file: %w", filePath, err)
 	}
 	defer r.Close()
 
@@ -481,7 +474,7 @@ func (m *Manager) deserializePeers() error {
 	dec := json.NewDecoder(r)
 	err = dec.Decode(&nodes)
 	if err != nil {
-		return fmt.Errorf("error reading %s: %v", filePath, err)
+		return fmt.Errorf("error reading %s: %w", filePath, err)
 	}
 
 	l := len(nodes)
