@@ -19,7 +19,7 @@ import (
 
 const (
 	// staleTimeout is the time in which a host is considered stale.
-	staleTimeout = time.Minute * 10
+	staleTimeout = time.Minute * 15
 
 	// dumpAddressInterval is the interval used to dump the address cache to
 	// disk for future use.
@@ -97,7 +97,7 @@ func (m *Manager) Start(ctx context.Context, shutdownWg *sync.WaitGroup) {
 			select {
 			case <-ctx.Done():
 				return
-			case <-time.After(time.Minute * 3):
+			case <-time.After(time.Minute * 5):
 				m.checkNodes(ctx)
 				m.geoIP(ctx)
 			}
