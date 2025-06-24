@@ -18,8 +18,8 @@ import (
 )
 
 const (
-	// defaultStaleTimeout is the time in which a host is considered stale.
-	defaultStaleTimeout = time.Minute * 10
+	// staleTimeout is the time in which a host is considered stale.
+	staleTimeout = time.Minute * 10
 
 	// dumpAddressInterval is the interval used to dump the address cache to
 	// disk for future use.
@@ -75,7 +75,7 @@ func New(homeDir string, params *chaincfg.Params, seedPeer []string) (*Manager, 
 	// Initialize good list.
 	now := time.Now()
 	for k, node := range amgr.nodes {
-		if now.Sub(node.LastSuccess) < defaultStaleTimeout {
+		if now.Sub(node.LastSuccess) < staleTimeout {
 			amgr.goodNodes = append(amgr.goodNodes, k)
 		}
 	}
@@ -251,7 +251,7 @@ func (m *Manager) StaleAddresses() []string {
 
 	m.mtx.RLock()
 	for _, node := range m.nodes {
-		if now.Sub(node.LastAttempt) < defaultStaleTimeout {
+		if now.Sub(node.LastAttempt) < staleTimeout {
 			continue
 		}
 
